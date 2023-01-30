@@ -29,12 +29,16 @@ input_values.extend( [0]*3 )
 # This simulator script is incomplete. As part of the tutorial you will
 # insert code here for constructing and elaborating a RegIncr model.
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+model = RegIncr()
+model.elaborate()
 
 # Apply the Verilog import passes and the default pass group
 
 model.apply( VerilogPlaceholderPass() )
 model = VerilogTranslationImportPass()( model )
-model.apply( DefaultPassGroup() )
+# model.apply( DefaultPassGroup(linetrace=True) )
+# model.apply( DefaultPassGroup(textwave=True) )
+model.apply( DefaultPassGroup(vcdwave="regincr-adhoc-test") )
 
 # Reset simulator
 
@@ -51,9 +55,10 @@ for input_value in input_values:
 
   # Print input and output ports
 
-  print( f" cycle = {model.sim_cycle_count()}: in = {model.in_}, out = {model.out}" )
+  # print( f" cycle = {model.sim_cycle_count()}: in = {model.in_}, out = {model.out}" )
 
   # Tick simulator one cycle
 
   model.sim_tick()
 
+model.print_textwave()

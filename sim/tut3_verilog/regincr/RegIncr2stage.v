@@ -36,6 +36,16 @@ module tut3_verilog_regincr_RegIncr2stage
   // registered incrementer here.
   // '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
+  // Second stage
+
+  tut3_verilog_regincr_RegIncr reg_incr_1
+  (
+    .clk    (clk),
+    .reset  (reset),
+    .in_    (reg_incr_0_out),
+    .out    (out)
+  );
+
 endmodule
 
 `endif /* TUT3_VERILOG_REGINCR_REG_INCR_2STAGE_V */

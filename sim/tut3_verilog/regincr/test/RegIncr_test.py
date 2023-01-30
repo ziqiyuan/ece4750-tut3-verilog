@@ -38,3 +38,27 @@ def test_large( cmdline_opts ):
 # for random testing.
 # ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
+#-------------------------------------------------------------------------
+# test_overflow
+#-------------------------------------------------------------------------
+def test_overflow( cmdline_opts ):
+  run_test_vector_sim( RegIncr(), [
+    ('in_   out*'),
+    [ 0x00, '?'  ],
+    [ 0xfe, 0x01 ],
+    [ 0xff, 0xff ],
+    [ 0x00, 0x00 ],
+  ], cmdline_opts )
+
+#-------------------------------------------------------------------------
+# test_random
+#-------------------------------------------------------------------------
+import random
+def test_random( cmdline_opts ):
+  test_vector_table = [( 'in_', 'out*' )]
+  last_result = '?'
+  for i in range(20):
+    rand_value = Bits8( random.randint(0,0xff) )
+    test_vector_table.append( [ rand_value, last_result ] )
+    last_result = Bits8( rand_value + 1, trunc_int=True )
+  run_test_vector_sim( RegIncr(), test_vector_table, cmdline_opts )
